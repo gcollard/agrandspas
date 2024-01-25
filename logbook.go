@@ -70,12 +70,12 @@ type ObservationMedia struct {
 func (l *Logbook) Search(timeframe TimeFrame) {
 	l.TimeFrame = timeframe
 	l.Entries = l.TimeFrame.getLogbookEntries(l.Token)
-	l.GetActivities()
-	l.GetObservations()
+	l.getActivities()
+	l.getObservations()
 }
 
 // Get all observations and observations medias for each logbook entry
-func (l *Logbook) GetObservations() {
+func (l *Logbook) getObservations() {
 	observations := l.TimeFrame.getObservations(l.Token)
 	observationMedias := l.TimeFrame.getObservationMedias(l.Token)
 
@@ -97,7 +97,7 @@ func (l *Logbook) GetObservations() {
 }
 
 // Get all observations and observations medias for each logbook entry
-func (l *Logbook) GetActivities() {
+func (l *Logbook) getActivities() {
 	activities := l.TimeFrame.getActivities(l.Token)
 	activitymedias := l.TimeFrame.getActivityMedia(l.Token)
 
@@ -120,12 +120,12 @@ func (l *Logbook) GetActivities() {
 
 /* Download all pictures from their guids */
 func (l *Logbook) DownloadAllPictures() {
-	l.DownloadObservationsPictures()
-	l.DownloadActivityPictures()
+	l.downloadObservationsPictures()
+	l.downloadActivityPictures()
 }
 
 // Download all observations attached pictures
-func (l *Logbook) DownloadObservationsPictures() {
+func (l *Logbook) downloadObservationsPictures() {
 	for _, entry := range l.Entries {
 		for _, observation := range entry.Observations {
 			for _, observationMedia := range observation.ObservationMedias {
@@ -141,7 +141,7 @@ func (l *Logbook) DownloadObservationsPictures() {
 }
 
 // Download all activities attached pictures
-func (l *Logbook) DownloadActivityPictures() {
+func (l *Logbook) downloadActivityPictures() {
 	for _, entry := range l.Entries {
 		for _, activity := range entry.Activities {
 			for _, activityMedia := range activity.ActivityMedias {
@@ -168,26 +168,26 @@ Return all infos about the logbook
 func (l *Logbook) Infos() {
 	fmt.Printf("Timeframe: %s - %s\n", l.TimeFrame.BeginDateTime, l.TimeFrame.EndDateTime)
 	fmt.Printf("Number of entries: %d\n", len(l.Entries))
-	fmt.Printf("Number of observations: %d\n", l.CountObservations())
-	fmt.Printf("Number of activities: %d\n", l.CountActivities())
-	fmt.Printf("Number of pictures: %d\n", l.CountPictures())
+	fmt.Printf("Number of observations: %d\n", l.countObservations())
+	fmt.Printf("Number of activities: %d\n", l.countActivities())
+	fmt.Printf("Number of pictures: %d\n", l.countPictures())
 }
 
-func (l *Logbook) CountObservations() int {
+func (l *Logbook) countObservations() int {
 	count := 0
 	for _, entry := range l.Entries {
 		count += len(entry.Observations)
 	}
 	return count
 }
-func (l *Logbook) CountActivities() int {
+func (l *Logbook) countActivities() int {
 	count := 0
 	for _, entry := range l.Entries {
 		count += len(entry.Activities)
 	}
 	return count
 }
-func (l *Logbook) CountActivityPictures() int {
+func (l *Logbook) countActivityPictures() int {
 	count := 0
 	for _, entry := range l.Entries {
 		for _, activity := range entry.Activities {
@@ -197,7 +197,7 @@ func (l *Logbook) CountActivityPictures() int {
 	}
 	return count
 }
-func (l *Logbook) CountObservationPictures() int {
+func (l *Logbook) countObservationPictures() int {
 	count := 0
 	for _, entry := range l.Entries {
 		for _, observation := range entry.Observations {
@@ -207,6 +207,6 @@ func (l *Logbook) CountObservationPictures() int {
 	}
 	return count
 }
-func (l *Logbook) CountPictures() int {
-	return l.CountActivityPictures() + l.CountObservationPictures()
+func (l *Logbook) countPictures() int {
+	return l.countActivityPictures() + l.countObservationPictures()
 }

@@ -15,19 +15,19 @@ type TimeFrame struct {
 }
 
 // Init timeframe to look for with provided begin and end time
-func (t *TimeFrame) Init(beginDateTime, endDateTime time.Time) {
+func (t *TimeFrame) init(beginDateTime, endDateTime time.Time) {
 	t.BeginDateTime = beginDateTime.Format(apiTimeFrameFormat)
 	t.EndDateTime = endDateTime.Format(apiTimeFrameFormat)
 	t.OwnerPersonID = "" // blank by default. Used to filter by person when multiple kids are in the same account
 }
 
 // Update timeframe begin datetime
-func (t *TimeFrame) SetBeginDateTime(beginDateTime time.Time) {
+func (t *TimeFrame) setBeginDateTime(beginDateTime time.Time) {
 	t.BeginDateTime = beginDateTime.Format(apiTimeFrameFormat)
 }
 
 // Update timeframe end datetime
-func (t *TimeFrame) SetEndDateTime(endDateTime time.Time) {
+func (t *TimeFrame) setEndDateTime(endDateTime time.Time) {
 	t.EndDateTime = endDateTime.Format(apiTimeFrameFormat)
 }
 

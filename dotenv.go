@@ -7,7 +7,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func LoadEnv() {
+func loadEnv() {
 	env := os.Getenv("AGP_ENV")
 	if "" == env {
 		env = "development"
@@ -22,7 +22,7 @@ func LoadEnv() {
 }
 
 // get environment variable or default value
-func Getenv(key string, defaultValue string) string {
+func getenv(key string, defaultValue string) string {
 	envValue := os.Getenv(key)
 	if "" == envValue {
 		return defaultValue

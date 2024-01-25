@@ -20,10 +20,10 @@
 # Go workspace file
 go.work
 
+Downloads/*
 .env*
 .*.env
 .DS_Store
 
-medias/*
 
 dist/

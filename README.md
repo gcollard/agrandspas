@@ -18,7 +18,7 @@
 ## How to use?
 ```bash
 # Replace with your "À petits pas" account credentials
-AGP_MYID=accountid AGP_USERNAME=your@email.com AGP_PASSWORD=password go run .
+AGP_USERNAME=your@email.com AGP_PASSWORD=password go run .
 ```
 
 ## What will it do?
@@ -31,16 +31,15 @@ AGP_MYID=accountid AGP_USERNAME=your@email.com AGP_PASSWORD=password go run .
 Settings are updated using environment variables.
 | Variable | Default Value | Description |
 | -------- | ------------- | ----------- |
-| AGP_DEST_FOLDER | `./media` | Path to destination folder |
-| AGP_MYID |  | Account PersonID |
 | AGP_USERNAME |  | Account ID (Email address) |
 | AGP_PASSWORD |  | Account Password |
+| AGP_DEST_FOLDER | `./Downloads` | Path to destination folder |
  
 
 ### Caveats
-1. Only the email connection method is supported.
+1. No support for social auth. Only email authentification is supported.
 
 ### Roadmap
-1. Find account id automatically
-2. Build binary package
-3. web & mobile app
+- [x] Find account id automatically
+- [ ] Build binary package
+- [ ] Web & mobile app

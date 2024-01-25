@@ -5,6 +5,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 /*
@@ -57,7 +58,8 @@ func Get(url string, token Token, target interface{}) error {
 	// Set headers
 	req.Header.Set("accept", "application/json, text/plain, */*")
 	req.Header.Set("authorization", "Bearer "+token.AccessToken)
-	req.Header.Set("personid", token.myID)
+	// transform token.PersonId from an int to a string
+	req.Header.Set("personid", strconv.Itoa(token.PersonID))
 
 	// Send request
 	res, err := client.Do(req)

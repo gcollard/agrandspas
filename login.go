@@ -2,11 +2,13 @@ package main
 
 import (
 	"bytes"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"io"
 	"log"
 	"net/http"
+	"strings"
 
 	"github.com/google/go-querystring/query"
 )
@@ -26,7 +28,10 @@ type Token struct {
 	TokenType    string `json:"token_type"`
 	ExpiresIn    uint   `json:"expires_in"`
 	RefreshToken string `json:"refresh_token"`
-	myID         string
+	PersonID     int    `json:"personId"`
+}
+type DecodedToken struct {
+	AUTHENTICATION_APP string `json:"AUTHENTICATION_APP"`
 }
 
 func (c Credentials) Login() Token {
@@ -57,5 +62,28 @@ var Login = func(id string, pwd string) Token {
 	if err != nil {
 		log.Fatal(err)
 	}
+	token.DecodeJWT()
 	return token
+}
+
+func (t *Token) DecodeJWT() {
+	// b64 decode user data from jwt token
+	me := strings.Split(t.AccessToken, ".")
+	decoded, err := base64.StdEncoding.DecodeString(me[1] + "=")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// unmarshal decoded string
+	var decodedToken DecodedToken
+	err = json.Unmarshal(decoded, &decodedToken)
+	if err != nil {
+		log.Fatal(err)
+	}
+	userData := []Token{}
+	err = json.Unmarshal([]byte(decodedToken.AUTHENTICATION_APP), &userData)
+	if err != nil || len(userData) != 1 {
+		log.Fatal(err)
+	}
+	t.PersonID = userData[0].PersonID
 }

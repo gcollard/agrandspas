@@ -120,8 +120,9 @@ func (l *Logbook) getActivities() {
 
 /* Download all pictures from their guids */
 func (l *Logbook) DownloadAllPictures() {
-	l.downloadObservationsPictures()
+	fmt.Printf("Downloading %d pictures\n", l.countPictures())
 	l.downloadActivityPictures()
+	l.downloadObservationsPictures()
 }
 
 // Download all observations attached pictures
@@ -130,7 +131,7 @@ func (l *Logbook) downloadObservationsPictures() {
 		for _, observation := range entry.Observations {
 			for _, observationMedia := range observation.ObservationMedias {
 				fileDate, _ := time.Parse(time.RFC3339, observation.CompileDate)
-				fmt.Println("downloading observation picture", fileDate, observation.Text, observationMedia.Media.ID)
+				// fmt.Println("downloading observation picture", fileDate, observation.Text, observationMedia.Media.ID)
 				err := observationMedia.Media.GetData(fileDate, l.DestFolder)
 				if err != nil {
 					fmt.Println("error downloading observation picture", err)
@@ -146,7 +147,7 @@ func (l *Logbook) downloadActivityPictures() {
 		for _, activity := range entry.Activities {
 			for _, activityMedia := range activity.ActivityMedias {
 				fileDate, _ := time.Parse(time.RFC3339, entry.PostedDate)
-				fmt.Println("downloading activity picture", fileDate, activity.Comment, activityMedia.Media.ID)
+				// fmt.Println("downloading activity picture", fileDate, activity.Comment, activityMedia.Media.ID)
 				err := activityMedia.Media.GetData(fileDate, l.DestFolder)
 				if err != nil {
 					fmt.Println("error downloading activity picture", err)
@@ -191,7 +192,6 @@ func (l *Logbook) countActivityPictures() int {
 	count := 0
 	for _, entry := range l.Entries {
 		for _, activity := range entry.Activities {
-			fmt.Println("activity medias", activity.ActivityMedias)
 			count += len(activity.ActivityMedias)
 		}
 	}
@@ -201,7 +201,6 @@ func (l *Logbook) countObservationPictures() int {
 	count := 0
 	for _, entry := range l.Entries {
 		for _, observation := range entry.Observations {
-			fmt.Println("observations medias", observation.ObservationMedias)
 			count += len(observation.ObservationMedias)
 		}
 	}

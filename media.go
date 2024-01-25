@@ -33,6 +33,7 @@ func (m *Media) GetData(fileDate time.Time, destFolder string) error {
 		return err
 	}
 	filename := destFolder + "/" + fileDate.Format("2006-01-02") + "_" + strconv.Itoa(int(m.ID)) + "." + strings.Split(m.MediaType, "/")[1]
+	fmt.Printf("Downloading %s\n", filename)
 	err = os.WriteFile(filename, bytes, 0644)
 	os.Chtimes(filename, fileDate, fileDate)
 	if err != nil {

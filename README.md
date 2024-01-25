@@ -34,6 +34,8 @@ Settings are updated using environment variables.
 | AGP_USERNAME |  | Account ID (Email address) |
 | AGP_PASSWORD |  | Account Password |
 | AGP_DEST_FOLDER | `./Downloads` | Path to destination folder |
+| AGP_DAYS_TO_FETCH | `366` | Number of past days to fetch (between 1 and 366) |
+
  
 
 ### Caveats
@@ -41,5 +43,5 @@ Settings are updated using environment variables.
 
 ### Roadmap
 - [x] Find account id automatically
-- [ ] Build binary package
+- [x] Build binary package
 - [ ] Web & mobile app

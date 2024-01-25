@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -26,6 +27,9 @@ func getenv(key string, defaultValue string) string {
 	envValue := os.Getenv(key)
 	if "" == envValue {
 		return defaultValue
+	}
+	if "" == envValue {
+		log.Fatal("Environment variable " + key + " is missing")
 	}
 	return envValue
 }

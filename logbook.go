@@ -6,9 +6,10 @@ import (
 )
 
 type Logbook struct {
-	TimeFrame TimeFrame
-	Token     Token
-	Entries   LogbookEntries
+	TimeFrame  TimeFrame
+	Token      Token
+	Entries    LogbookEntries
+	DestFolder string
 }
 
 // https://serviceapp.amisgest.ca/8_2/breeze/Breeze/logbook_entry?beginDateTime=2024-01-23T05%3A00%3A00.000Z&endDateTime=2024-01-24T04%3A59%3A59.999Z&ownerPersonId=
@@ -63,11 +64,6 @@ type ObservationMedia struct {
 	MediaID       uint `json:"media_id"`
 	ObservationID uint `json:"observation_id"`
 	Media         Media
-}
-
-// Config for logbook
-func (l *Logbook) Config(token Token) {
-	l.Token = token
 }
 
 // Search logbook entries by timeframe
@@ -135,7 +131,10 @@ func (l *Logbook) DownloadObservationsPictures() {
 			for _, observationMedia := range observation.ObservationMedias {
 				fileDate, _ := time.Parse(time.RFC3339, observation.CompileDate)
 				fmt.Println("downloading observation picture", fileDate, observation.Text, observationMedia.Media.ID)
-				observationMedia.Media.GetData(fileDate)
+				err := observationMedia.Media.GetData(fileDate, l.DestFolder)
+				if err != nil {
+					fmt.Println("error downloading observation picture", err)
+				}
 			}
 		}
 	}
@@ -148,7 +147,10 @@ func (l *Logbook) DownloadActivityPictures() {
 			for _, activityMedia := range activity.ActivityMedias {
 				fileDate, _ := time.Parse(time.RFC3339, entry.PostedDate)
 				fmt.Println("downloading activity picture", fileDate, activity.Comment, activityMedia.Media.ID)
-				activityMedia.Media.GetData(fileDate)
+				err := activityMedia.Media.GetData(fileDate, l.DestFolder)
+				if err != nil {
+					fmt.Println("error downloading activity picture", err)
+				}
 			}
 		}
 	}

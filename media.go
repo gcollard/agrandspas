@@ -19,7 +19,7 @@ type Medias []Media
 
 // Download picture using media guid
 // ex: https://serviceapp.amisgest.ca/8_2/api/media/GetData?guid=54gA8qdDfcKYhyNcP66MDFtf1hsq7TUroE7K1fTwk2P2sW8iPPIfwfZr2XDjC5KaJu8xWnd7eSsGIohLrQJkhGRaWhghm1exIzht2LnUyQfta8QHPDHaDik4vlu1G5lj
-func (m *Media) GetData(fileDate time.Time) error {
+func (m *Media) GetData(fileDate time.Time, destFolder string) error {
 	if m.Guid == "" {
 		return fmt.Errorf("media (id:%d) Guid is missing", m.ID)
 	}

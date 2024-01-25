@@ -9,7 +9,7 @@
 
 # À grands pas
 
-"À petits pas" missing functionality to bulk download and backup all pictures and videos.
+"À petits pas" missing functionality to bulk download and backup your account pictures and videos.
 
 ### Who is this for?
 1. Busy parents

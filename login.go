@@ -36,7 +36,9 @@ type DecodedToken struct {
 
 func (c Credentials) Login() Token {
 	fmt.Println("Logging in as", c.Username)
-	return Login(c.Username, c.Password)
+	token := Login(c.Username, c.Password)
+	fmt.Println("Logged in as", token.PersonID, token.AccessToken)
+	return token
 }
 
 var Login = func(id string, pwd string) Token {
@@ -56,6 +58,9 @@ var Login = func(id string, pwd string) Token {
 		log.Fatal(err)
 	}
 	bytes, err := io.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
 	// Unmarshal response to Token struct
 	var token Token
 	err = json.Unmarshal(bytes, &token)
@@ -69,7 +74,7 @@ var Login = func(id string, pwd string) Token {
 func (t *Token) DecodeJWT() {
 	// b64 decode user data from jwt token
 	me := strings.Split(t.AccessToken, ".")
-	decoded, err := base64.StdEncoding.DecodeString(me[1] + "=")
+	decoded, err := base64.StdEncoding.DecodeString(me[1])
 	if err != nil {
 		log.Fatal(err)
 	}
